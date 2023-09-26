@@ -6,13 +6,23 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
 @Table(name = "usuarios")
-public class Usuario extends PanacheEntity {
+public class Usuario {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
     @NotEmpty
     @NotBlank
     private String nome;
@@ -26,6 +36,7 @@ public class Usuario extends PanacheEntity {
     @NotBlank
     @Email
     private String email;
+    @Getter
     @NotEmpty
     @NotBlank
     private String senha;
@@ -34,94 +45,4 @@ public class Usuario extends PanacheEntity {
 
     @OneToMany(mappedBy = "usuario")
     private List<Agendamento> agendamentos = new ArrayList<>();
-
-    public Usuario(){}
-    public Usuario(String nome, String endereco, String cpf, String email, String senha, Agendamento agendamentos) {
-        this.nome = nome;
-        this.endereco = endereco;
-        this.cpf = cpf;
-        this.email = email;
-        this.senha = senha;
-        this.role = Role.USUARIO;
-        this.agendamentos.add(agendamentos);
-    }
-
-    public Usuario(String nome, String endereco, String cpf, String email, String senha) {
-        this.nome = nome;
-        this.endereco = endereco;
-        this.cpf = cpf;
-        this.email = email;
-        this.senha = senha;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public String getEndereco() {
-        return endereco;
-    }
-
-    public void setEndereco(String endereco) {
-        this.endereco = endereco;
-    }
-
-    public String getCpf() {
-        return cpf;
-    }
-
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getSenha() {
-        return senha;
-    }
-
-    public void setSenha(String senha) {
-        this.senha = senha;
-    }
-
-
-    public String getRole() {
-        return role.getRole();
-    }
-
-    public void setRoles(Role roles) {
-        this.role = roles;
-    }
-
-    public List<Agendamento> getAgendamentos() {
-        return agendamentos;
-    }
-
-    public void setAgendamentos(List<Agendamento> agendamentos) {
-        this.agendamentos = agendamentos;
-    }
-
-    @Override
-    public String toString() {
-        return "Usuario{" +
-                "nome='" + nome + '\'' +
-                ", endereco='" + endereco + '\'' +
-                ", cpf='" + cpf + '\'' +
-                ", email='" + email + '\'' +
-                ", senha='" + senha + '\'' +
-                ", roles=" + role +
-                ", agendamentos=" + agendamentos +
-                ", id=" + id +
-                '}';
-    }
 }
