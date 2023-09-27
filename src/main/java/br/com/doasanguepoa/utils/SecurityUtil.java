@@ -13,9 +13,9 @@ public class SecurityUtil {
         String bCryptPasswordHash = BcryptUtil.bcryptHash("Password_1");
         String passwordToVerify = "Password_1";
 
-        System.out.println(verifyBCryptPassword(bCryptPasswordHash, passwordToVerify)); // -> true
+        //System.out.println(verifyBCryptPassword(bCryptPasswordHash, passwordToVerify)); // -> true
 
-        System.out.println(verifyBCryptPassword(bCryptPasswordHash, "NotPassword_1")); // --> false
+        //System.out.println(verifyBCryptPassword(bCryptPasswordHash, "NotPassword_1")); // --> false
 
     }
 

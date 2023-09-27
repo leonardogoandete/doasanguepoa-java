@@ -1,5 +1,6 @@
 package br.com.doasanguepoa.controller;
 
+import br.com.doasanguepoa.dto.instituicao.InstituicaoDTO;
 import br.com.doasanguepoa.model.Instituicao;
 import br.com.doasanguepoa.service.InstituicaoService;
 import jakarta.inject.Inject;
@@ -40,22 +41,26 @@ public class InstituicaoController {
 
     @POST
     @Transactional
-    public void adicionarInstituicao(@Valid Instituicao instituicao) {
-        instituicaoService.adicionarInstituicao(instituicao);
+    public void adicionarInstituicao(@Valid InstituicaoDTO instituicaoDTO) {
+        instituicaoService.adicionarInstituicao(instituicaoDTO);
     }
 
     @PUT
     @Path("/{id}")
     @Transactional
-    public Instituicao atualizarInstituicao(@PathParam Long id, @Valid Instituicao instituicao) {
+    public InstituicaoDTO atualizarInstituicao(@PathParam Long id, @Valid InstituicaoDTO instituicaoDTO) {
         Instituicao entity = instituicaoService.buscarInstituicaoPorId(id);
         if (entity == null) {
             throw new WebApplicationException("Instituição com ID " + id + " não encontrada.", 404);
         }
 
-        entity.setNome(instituicao.getNome());
+        entity.setNome(instituicaoDTO.nome());
+        entity.setEndereco(instituicaoDTO.endereco());
+        entity.setEmail(instituicaoDTO.email());
+        entity.setSenha(instituicaoDTO.senha());
+        entity.setCnpj(instituicaoDTO.cnpj());
 
-        return entity;
+        return instituicaoDTO;
     }
 
     @DELETE
@@ -66,6 +71,6 @@ public class InstituicaoController {
         if (entity == null) {
             throw new WebApplicationException("Instituição com ID " + id + " não encontrada.", 404);
         }
-        //entity.delete();
+        instituicaoService.deletarInstituicao(id);
     }
 }

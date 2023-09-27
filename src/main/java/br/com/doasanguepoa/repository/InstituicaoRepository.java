@@ -6,4 +6,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
 public class InstituicaoRepository implements PanacheRepository<Instituicao> {
+    public Instituicao findByCnpj(String cnpj){
+        return find("cnpj", cnpj).firstResult();
+    }
 }
