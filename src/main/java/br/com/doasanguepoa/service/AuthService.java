@@ -1,6 +1,7 @@
 package br.com.doasanguepoa.service;
 import br.com.doasanguepoa.repository.InstituicaoRepository;
 import br.com.doasanguepoa.repository.UsuarioRepository;
+import br.com.doasanguepoa.utils.SecurityUtil;
 import io.smallrye.jwt.build.Jwt;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -10,12 +11,13 @@ import java.util.HashSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import static br.com.doasanguepoa.utils.SecurityUtil.verifyBCryptPassword;
-
 @ApplicationScoped
 public class AuthService {
 
     public static final Logger LOGGER = Logger.getLogger(AuthService.class.getName());
+
+    @Inject
+    SecurityUtil securityUtil;
 
     @Inject
     UsuarioRepository usuarioRepository;
@@ -64,7 +66,7 @@ public class AuthService {
         // Lógica de validação de credenciais CPF
 
         String pass = usuarioRepository.findByCpf(cpf).getSenha();
-        if (verifyBCryptPassword(pass, senha)){
+        if (SecurityUtil.verifyBCryptPassword(pass, senha)){
             return true; // Simulação de autenticação bem-sucedida
         }
 
@@ -75,7 +77,7 @@ public class AuthService {
     private boolean validarCredenciaisCNPJ(String cnpj, String senha) throws Exception {
         // Lógica de validação de credenciais CNPJ
         String pass = instituicaoRepository.findByCnpj(cnpj).getSenha();
-        if (verifyBCryptPassword(pass, senha)){
+        if (SecurityUtil.verifyBCryptPassword(pass, senha)){
             return true; // Simulação de autenticação bem-sucedida
         }
         LOGGER.log(Level.INFO, "Senha da instituicao: {0}", pass);

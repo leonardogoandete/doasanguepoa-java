@@ -5,20 +5,16 @@ import org.wildfly.security.password.PasswordFactory;
 import org.wildfly.security.password.WildFlyElytronPasswordProvider;
 import org.wildfly.security.password.interfaces.BCryptPassword;
 import org.wildfly.security.password.util.ModularCrypt;
+
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
+
 public class SecurityUtil {
-
-    public static void main(String[] args) throws Exception {
-
-        //String bCryptPasswordHash = BcryptUtil.bcryptHash("Password_1");
-        //String passwordToVerify = "Password_1";
-
-        //System.out.println(verifyBCryptPassword(bCryptPasswordHash, passwordToVerify)); // -> true
-
-        //System.out.println(verifyBCryptPassword(bCryptPasswordHash, "NotPassword_1")); // --> false
-
+    private SecurityUtil() {
+        throw new IllegalStateException("Utility class");
     }
-
-    public static boolean verifyBCryptPassword(String bCryptPasswordHash, String passwordToVerify) throws Exception {
+    public static boolean verifyBCryptPassword(String bCryptPasswordHash, String passwordToVerify) throws NoSuchAlgorithmException, InvalidKeySpecException, InvalidKeyException {
 
         WildFlyElytronPasswordProvider provider = new WildFlyElytronPasswordProvider();
 
