@@ -1,8 +1,14 @@
 package br.com.doasanguepoa.controller;
 
+import br.com.doasanguepoa.dto.postagem.PostagemDTO;
+import br.com.doasanguepoa.model.Instituicao;
 import br.com.doasanguepoa.model.Postagem;
+import br.com.doasanguepoa.service.InstituicaoService;
 import br.com.doasanguepoa.service.PostagemService;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
+import org.eclipse.microprofile.openapi.annotations.enums.SecuritySchemeType;
+import org.eclipse.microprofile.openapi.annotations.security.SecurityScheme;
 import org.jboss.resteasy.annotations.jaxrs.PathParam;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -14,12 +20,20 @@ import java.util.List;
 @Path("/postagens")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
+@SecurityScheme(scheme = "Bearer",
+                type = SecuritySchemeType.HTTP,
+                bearerFormat = "JWT")
 public class PostagemController {
 
     @Inject
     PostagemService postagemService;
 
+    @Inject
+    InstituicaoService instituicaoService;
+
+
     @GET
+    @RolesAllowed({ "USUARIO","INSTITUICAO" })
     public List<Postagem> listarPostagens() {
         List<Postagem> postagens = new ArrayList<>();
 
@@ -35,20 +49,26 @@ public class PostagemController {
 
     @GET
     @Path("/{id}")
+    @RolesAllowed({ "USUARIO","INSTITUICAO" })
     public Postagem buscarPostagemPorId(@PathParam Long id) {
         return postagemService.buscarPostagemPorId(id);
     }
 
     @POST
     @Transactional
-    public Postagem adicionarPostagem(@Valid Postagem postagem) {
+    //@RolesAllowed({ "INSTITUICAO" })
+    public PostagemDTO adicionarPostagem(@Valid PostagemDTO postagemDTO) {
+        //Instituicao instituicao = instituicaoService.buscarInstituicaoPorCnpj(cnpj);
+        //log.info("Exibindo info instituicao {0}", instituicao.getNome());
+        Postagem postagem = new Postagem(postagemDTO.titulo(),postagemDTO.mensagem());
         postagemService.adicionarPostagem(postagem);
-        return postagem;
+        return postagemDTO;
     }
 
     @PUT
     @Path("/{id}")
     @Transactional
+    @RolesAllowed({ "INSTITUICAO" })
     public Postagem atualizarPostagem(@PathParam Long id, @Valid Postagem postagem) {
         Postagem entity = postagemService.buscarPostagemPorId(id);
         if (entity == null) {
@@ -64,6 +84,7 @@ public class PostagemController {
     @DELETE
     @Path("/{id}")
     @Transactional
+    @RolesAllowed({ "ADMIN","INSTITUICAO" })
     public void deletarPostagem(@PathParam Long id) {
         Postagem entity = postagemService.buscarPostagemPorId(id);
         if (entity == null) {

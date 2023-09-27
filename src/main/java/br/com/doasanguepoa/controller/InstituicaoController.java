@@ -3,6 +3,7 @@ package br.com.doasanguepoa.controller;
 import br.com.doasanguepoa.dto.instituicao.InstituicaoDTO;
 import br.com.doasanguepoa.model.Instituicao;
 import br.com.doasanguepoa.service.InstituicaoService;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import org.jboss.resteasy.annotations.jaxrs.PathParam;
 import jakarta.ws.rs.*;
@@ -21,6 +22,7 @@ public class InstituicaoController {
     InstituicaoService instituicaoService;
 
     @GET
+    @RolesAllowed({ "USUARIO","INSTITUICAO" })
     public List<Instituicao> listarInstituicoes() {
         List<Instituicao> instituicoes = new ArrayList<>();
 
@@ -35,12 +37,14 @@ public class InstituicaoController {
 
     @GET
     @Path("/{id}")
+    @RolesAllowed({ "USUARIO","INSTITUICAO" })
     public Instituicao buscarInstituicaoPorId(@PathParam Long id) {
         return instituicaoService.buscarInstituicaoPorId(id);
     }
 
     @POST
     @Transactional
+    //@RolesAllowed({ "ADMIN" })
     public void adicionarInstituicao(@Valid InstituicaoDTO instituicaoDTO) {
         instituicaoService.adicionarInstituicao(instituicaoDTO);
     }
@@ -48,6 +52,7 @@ public class InstituicaoController {
     @PUT
     @Path("/{id}")
     @Transactional
+    @RolesAllowed({ "ADMIN","INSTITUICAO" })
     public InstituicaoDTO atualizarInstituicao(@PathParam Long id, @Valid InstituicaoDTO instituicaoDTO) {
         Instituicao entity = instituicaoService.buscarInstituicaoPorId(id);
         if (entity == null) {
@@ -66,6 +71,7 @@ public class InstituicaoController {
     @DELETE
     @Path("/{id}")
     @Transactional
+    @RolesAllowed({ "ADMIN" })
     public void deletarInstituicao(@PathParam Long id) {
         Instituicao entity = instituicaoService.buscarInstituicaoPorId(id);
         if (entity == null) {

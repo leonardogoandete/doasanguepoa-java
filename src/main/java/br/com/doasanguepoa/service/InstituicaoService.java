@@ -37,4 +37,8 @@ public class InstituicaoService {
     public void deletarInstituicao(Long id) {
         instituicaoRepository.deleteById(id);
     }
+
+    public Instituicao buscarInstituicaoPorCnpj(String cnpj) {
+        return instituicaoRepository.findByCnpj(cnpj);
+    }
 }

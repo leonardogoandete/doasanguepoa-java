@@ -21,6 +21,12 @@ public class Usuario extends Pessoa{
         this.agendamentos = new ArrayList<>();
     }
 
+    public Usuario(String nome, String endereco, String email, String senha, String cpf, Role role) {
+        super(nome, endereco, email, senha, role);
+        this.cpf = cpf;
+        this.agendamentos = new ArrayList<>();
+    }
+
     @NotEmpty
     @NotBlank
     private String cpf;

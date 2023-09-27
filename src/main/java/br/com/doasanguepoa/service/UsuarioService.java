@@ -25,6 +25,10 @@ public class UsuarioService {
         return usuarioRepository.findById(id);
     }
 
+    public Usuario buscarUsuarioPorCpf(String cpf){
+        return usuarioRepository.findByCpf(cpf);
+    }
+
     public void adicionarUsuario(UsuarioDTOComSenha usuarioDTOComSenha) {
         String senhaHash = BcryptUtil.bcryptHash(usuarioDTOComSenha.senha());
         Usuario usuario = new Usuario(usuarioDTOComSenha.nome(), usuarioDTOComSenha.endereco(), usuarioDTOComSenha.email(), senhaHash, usuarioDTOComSenha.cpf());

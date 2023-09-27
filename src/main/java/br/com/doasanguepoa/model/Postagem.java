@@ -18,4 +18,15 @@ public class Postagem {
     private String mensagem;
     @ManyToOne
     private Instituicao instituicao;
+
+    public Postagem(String titulo, String mensagem) {
+        this.titulo = titulo;
+        this.mensagem = mensagem;
+        this.instituicao = instituicao;
+    }
+    public Postagem(String titulo, String mensagem, Instituicao instituicao) {
+        this.titulo = titulo;
+        this.mensagem = mensagem;
+        this.instituicao = instituicao;
+    }
 }

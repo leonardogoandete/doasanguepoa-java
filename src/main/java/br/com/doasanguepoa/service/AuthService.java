@@ -1,6 +1,4 @@
 package br.com.doasanguepoa.service;
-import br.com.doasanguepoa.repository.InstituicaoRepository;
-import br.com.doasanguepoa.repository.UsuarioRepository;
 import br.com.doasanguepoa.utils.SecurityUtil;
 import io.smallrye.jwt.build.Jwt;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -13,17 +11,13 @@ import java.util.logging.Logger;
 
 @ApplicationScoped
 public class AuthService {
-
     public static final Logger LOGGER = Logger.getLogger(AuthService.class.getName());
 
     @Inject
-    SecurityUtil securityUtil;
+    UsuarioService usuarioService;
 
     @Inject
-    UsuarioRepository usuarioRepository;
-
-    @Inject
-    InstituicaoRepository instituicaoRepository;
+    InstituicaoService instituicaoService;
 
     // Essa chave é usada para assinar o token JWT. Substitua por uma chave real em produção.
     private static final String SECRET_KEY = "SuaChaveSecreta";
@@ -51,11 +45,13 @@ public class AuthService {
             return Jwt.issuer("http://localhost:8080")
                     .upn(documento)
                     .groups(new HashSet<>(Arrays.asList("USUARIO")))
+                    .expiresAt(System.currentTimeMillis()+3600)
                     .sign();
         } else if (tipoDocumento.equals("CNPJ")) {
             return Jwt.issuer("http://localhost:8080")
                     .upn(documento)
                     .groups(new HashSet<>(Arrays.asList("INSTITUICAO")))
+                    .expiresAt(System.currentTimeMillis()+3600)
                     .sign();
         }
         return null;
@@ -64,8 +60,8 @@ public class AuthService {
     // Métodos de validação de credenciais CPF e CNPJ (substitua por sua lógica)
     private boolean validarCredenciaisCPF(String cpf, String senha) throws Exception {
         // Lógica de validação de credenciais CPF
-
-        String pass = usuarioRepository.findByCpf(cpf).getSenha();
+        // trocar para buscar por CPF
+        String pass = usuarioService.buscarUsuarioPorCpf(cpf).getSenha();
         if (SecurityUtil.verifyBCryptPassword(pass, senha)){
             return true; // Simulação de autenticação bem-sucedida
         }
@@ -76,7 +72,7 @@ public class AuthService {
 
     private boolean validarCredenciaisCNPJ(String cnpj, String senha) throws Exception {
         // Lógica de validação de credenciais CNPJ
-        String pass = instituicaoRepository.findByCnpj(cnpj).getSenha();
+        String pass = instituicaoService.buscarInstituicaoPorCnpj(cnpj).getSenha();
         if (SecurityUtil.verifyBCryptPassword(pass, senha)){
             return true; // Simulação de autenticação bem-sucedida
         }

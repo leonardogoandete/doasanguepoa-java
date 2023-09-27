@@ -74,6 +74,7 @@ public class UsuarioController {
     @DELETE
     @Path("/{id}")
     @Transactional
+    @RolesAllowed({ "ADMIN" })
     public void deletarUsuario(@PathParam Long id) {
         Usuario entity = usuarioService.buscarUsuarioPorId(id);
         if (entity == null) {
