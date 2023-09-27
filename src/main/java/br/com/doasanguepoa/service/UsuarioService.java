@@ -7,6 +7,7 @@ import io.quarkus.elytron.security.common.BcryptUtil;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 @ApplicationScoped
@@ -27,7 +28,7 @@ public class UsuarioService {
     public void adicionarUsuario(UsuarioDTOComSenha usuarioDTOComSenha) {
         String senhaHash = BcryptUtil.bcryptHash(usuarioDTOComSenha.senha());
         Usuario usuario = new Usuario(usuarioDTOComSenha.nome(), usuarioDTOComSenha.endereco(), usuarioDTOComSenha.email(), senhaHash, usuarioDTOComSenha.cpf());
-        LOGGER.info("Gravando o usuario: " + usuario.toString());
+        LOGGER.log(Level.INFO, "Gravando o usuario: {0}", usuario);
         usuarioRepository.persist(usuario);
     }
 

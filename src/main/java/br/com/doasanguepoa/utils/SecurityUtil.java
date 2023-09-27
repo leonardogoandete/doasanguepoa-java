@@ -1,6 +1,5 @@
 package br.com.doasanguepoa.utils;
 
-import io.quarkus.elytron.security.common.BcryptUtil;
 import org.wildfly.security.password.Password;
 import org.wildfly.security.password.PasswordFactory;
 import org.wildfly.security.password.WildFlyElytronPasswordProvider;
@@ -10,8 +9,8 @@ public class SecurityUtil {
 
     public static void main(String[] args) throws Exception {
 
-        String bCryptPasswordHash = BcryptUtil.bcryptHash("Password_1");
-        String passwordToVerify = "Password_1";
+        //String bCryptPasswordHash = BcryptUtil.bcryptHash("Password_1");
+        //String passwordToVerify = "Password_1";
 
         //System.out.println(verifyBCryptPassword(bCryptPasswordHash, passwordToVerify)); // -> true
 

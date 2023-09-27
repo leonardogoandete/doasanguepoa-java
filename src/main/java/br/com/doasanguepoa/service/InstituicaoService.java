@@ -7,6 +7,7 @@ import io.quarkus.elytron.security.common.BcryptUtil;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 @ApplicationScoped
@@ -29,7 +30,7 @@ public class InstituicaoService {
     public void adicionarInstituicao(InstituicaoDTO instituicaoDTO) {
         String hashSenha = BcryptUtil.bcryptHash(instituicaoDTO.senha());
         Instituicao instituicao = new Instituicao(instituicaoDTO.nome(), instituicaoDTO.endereco(), instituicaoDTO.email(), hashSenha, instituicaoDTO.cnpj());
-        LOGGER.info("Gravando a instituicao: " + instituicao.toString());
+        LOGGER.log(Level.INFO, "Gravando a instituicao: {0}", instituicao);
         instituicaoRepository.persist(instituicao);
     }
 

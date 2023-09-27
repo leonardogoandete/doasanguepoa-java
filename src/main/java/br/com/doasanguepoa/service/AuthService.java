@@ -7,6 +7,7 @@ import jakarta.inject.Inject;
 
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import static br.com.doasanguepoa.utils.SecurityUtil.verifyBCryptPassword;
@@ -67,7 +68,7 @@ public class AuthService {
             return true; // Simulação de autenticação bem-sucedida
         }
 
-        LOGGER.info("Senha do usuario: " + pass);
+        LOGGER.log(Level.INFO, "Senha do usuario: {0}", pass);
         return false;
     }
 
@@ -77,7 +78,7 @@ public class AuthService {
         if (verifyBCryptPassword(pass, senha)){
             return true; // Simulação de autenticação bem-sucedida
         }
-        LOGGER.info("Senha da instituicao: " + pass);
+        LOGGER.log(Level.INFO, "Senha da instituicao: {0}", pass);
         return false; // Simulação de autenticação bem-sucedida
     }
 }
