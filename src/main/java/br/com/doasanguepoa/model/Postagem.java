@@ -1,5 +1,6 @@
 package br.com.doasanguepoa.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -17,6 +18,7 @@ public class Postagem {
     private String titulo;
     private String mensagem;
     @ManyToOne
+    @JsonManagedReference
     private Instituicao instituicao;
 
     public Postagem(String titulo, String mensagem) {

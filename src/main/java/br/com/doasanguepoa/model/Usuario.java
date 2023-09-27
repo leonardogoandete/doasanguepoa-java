@@ -1,6 +1,7 @@
 package br.com.doasanguepoa.model;
 
 import br.com.doasanguepoa.enuns.Role;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
@@ -32,6 +33,7 @@ public class Usuario extends Pessoa{
     private String cpf;
 
     @OneToMany(mappedBy = "usuario")
+    @JsonBackReference
     private List<Agendamento> agendamentos = new ArrayList<>();
 
     @Override

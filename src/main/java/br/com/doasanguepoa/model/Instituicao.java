@@ -1,6 +1,7 @@
 package br.com.doasanguepoa.model;
 
 import br.com.doasanguepoa.enuns.Role;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
@@ -29,9 +30,11 @@ public class Instituicao extends Pessoa{
     private String cnpj;
 
     @OneToMany(mappedBy = "instituicao")
+    @JsonBackReference
     private List<Agendamento> agendamentos = new ArrayList<>();
 
     @OneToMany(mappedBy = "instituicao", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonBackReference
     private List<Postagem> postagens = new ArrayList<>();
 
     @Override

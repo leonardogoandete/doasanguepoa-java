@@ -1,6 +1,7 @@
 package br.com.doasanguepoa.model;
 
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
@@ -24,11 +25,13 @@ public class Agendamento{
     private Date date;
 
     @ManyToOne
+    @JsonManagedReference
     private Instituicao instituicao;
 
     @NotBlank @NotEmpty @NotNull
     private String hora;
     @ManyToOne
+    @JsonManagedReference
     private Usuario usuario;
 
     @NotBlank @NotEmpty @NotNull
