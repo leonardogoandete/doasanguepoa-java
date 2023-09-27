@@ -1,6 +1,7 @@
 package br.com.doasanguepoa.model;
 
 
+import br.com.doasanguepoa.enuns.Status;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -21,19 +22,25 @@ public class Agendamento{
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @NotBlank @NotEmpty @NotNull
     private Date date;
 
     @ManyToOne
     @JsonManagedReference
     private Instituicao instituicao;
 
-    @NotBlank @NotEmpty @NotNull
     private String hora;
     @ManyToOne
     @JsonManagedReference
     private Usuario usuario;
 
-    @NotBlank @NotEmpty @NotNull
-    private boolean status;
+    @Enumerated(EnumType.STRING)
+    private Status status;
+
+    public Agendamento(Date date, Instituicao instituicao, String hora, Usuario usuario) {
+        this.date = date;
+        this.instituicao = instituicao;
+        this.hora = hora;
+        this.usuario = usuario;
+        this.status = Status.PENDENTE;
+    }
 }
