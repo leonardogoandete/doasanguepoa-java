@@ -1,6 +1,6 @@
 package br.com.doasanguepoa.service;
 
-import br.com.doasanguepoa.dto.instituicao.InstituicaoDTO;
+import br.com.doasanguepoa.dto.instituicao.InstituicaoDTOComSenha;
 import br.com.doasanguepoa.model.Instituicao;
 import br.com.doasanguepoa.repository.InstituicaoRepository;
 import io.quarkus.elytron.security.common.BcryptUtil;
@@ -27,9 +27,9 @@ public class InstituicaoService {
 
 
     //USAR DTOs AQUI
-    public void adicionarInstituicao(InstituicaoDTO instituicaoDTO) {
-        String hashSenha = BcryptUtil.bcryptHash(instituicaoDTO.senha());
-        Instituicao instituicao = new Instituicao(instituicaoDTO.nome(), instituicaoDTO.endereco(), instituicaoDTO.email(), hashSenha, instituicaoDTO.cnpj());
+    public void adicionarInstituicao(InstituicaoDTOComSenha instituicaoDTOComSenha) {
+        String hashSenha = BcryptUtil.bcryptHash(instituicaoDTOComSenha.senha());
+        Instituicao instituicao = new Instituicao(instituicaoDTOComSenha.nome(), instituicaoDTOComSenha.endereco(), instituicaoDTOComSenha.email(), hashSenha, instituicaoDTOComSenha.cnpj());
         LOGGER.log(Level.INFO, "Gravando a instituicao: {0}", instituicao);
         instituicaoRepository.persist(instituicao);
     }

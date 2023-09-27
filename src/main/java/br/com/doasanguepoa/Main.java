@@ -25,17 +25,17 @@ public class Main {
     @POST
     @Transactional
     public void carga() {
-        Logger LOGGER = Logger.getLogger(Main.class.getName());
+        Logger logger = Logger.getLogger(Main.class.getName());
 
         String senha = BcryptUtil.bcryptHash("leonardo");
         Usuario usuario = new Usuario("leonardo","trav a","leonardo@leonardo.com",senha,"12345678912", Role.ADMIN);
-        LOGGER.log(Level.INFO,"Inserindo usuario: {0}", usuario);
+        logger.log(Level.INFO,"Inserindo usuario: {0}", usuario);
         usuarioRepository.persist(usuario);
 
 
         String senhaHash = BcryptUtil.bcryptHash("clinicas");
         Instituicao instituicao = new Instituicao("Clinicas","trav oswaldo aranha","clinicas@clinicas.com",senhaHash,"87020517000120");
-        LOGGER.log(Level.INFO,"Inserindo instituicao: {0}", instituicao);
+        logger.log(Level.INFO,"Inserindo instituicao: {0}", instituicao);
         instituicaoRepository.persist(instituicao);
 
     }

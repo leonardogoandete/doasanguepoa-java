@@ -24,7 +24,6 @@ public class Postagem {
     public Postagem(String titulo, String mensagem) {
         this.titulo = titulo;
         this.mensagem = mensagem;
-        this.instituicao = instituicao;
     }
     public Postagem(String titulo, String mensagem, Instituicao instituicao) {
         this.titulo = titulo;

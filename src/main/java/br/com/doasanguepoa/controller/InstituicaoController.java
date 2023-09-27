@@ -1,6 +1,7 @@
 package br.com.doasanguepoa.controller;
 
 import br.com.doasanguepoa.dto.instituicao.InstituicaoDTO;
+import br.com.doasanguepoa.dto.instituicao.InstituicaoDTOComSenha;
 import br.com.doasanguepoa.model.Instituicao;
 import br.com.doasanguepoa.service.InstituicaoService;
 import jakarta.annotation.security.RolesAllowed;
@@ -23,16 +24,19 @@ public class InstituicaoController {
 
     @GET
     @RolesAllowed({ "USUARIO","INSTITUICAO" })
-    public List<Instituicao> listarInstituicoes() {
-        List<Instituicao> instituicoes = new ArrayList<>();
+    public List<InstituicaoDTO> listarInstituicoes() {
+        List<InstituicaoDTO> instituicoesDTO = new ArrayList<>();
 
         try{
-            instituicoes = instituicaoService.listarInstituicoes();
+            List<Instituicao> instituicoes = instituicaoService.listarInstituicoes();
+            for(Instituicao instituicao: instituicoes){
+                instituicoesDTO.add(new InstituicaoDTO(instituicao.getNome(),instituicao.getEndereco(),instituicao.getEmail(),instituicao.getCnpj()));
+            }
         }catch (Exception e){
             e.printStackTrace();
         }
 
-        return instituicoes;
+        return instituicoesDTO;
     }
 
     @GET
@@ -45,27 +49,27 @@ public class InstituicaoController {
     @POST
     @Transactional
     //@RolesAllowed({ "ADMIN" })
-    public void adicionarInstituicao(@Valid InstituicaoDTO instituicaoDTO) {
-        instituicaoService.adicionarInstituicao(instituicaoDTO);
+    public void adicionarInstituicao(@Valid InstituicaoDTOComSenha instituicaoDTOComSenha) {
+        instituicaoService.adicionarInstituicao(instituicaoDTOComSenha);
     }
 
     @PUT
     @Path("/{id}")
     @Transactional
     @RolesAllowed({ "ADMIN","INSTITUICAO" })
-    public InstituicaoDTO atualizarInstituicao(@PathParam Long id, @Valid InstituicaoDTO instituicaoDTO) {
+    public InstituicaoDTOComSenha atualizarInstituicao(@PathParam Long id, @Valid InstituicaoDTOComSenha instituicaoDTOComSenha) {
         Instituicao entity = instituicaoService.buscarInstituicaoPorId(id);
         if (entity == null) {
             throw new WebApplicationException("Instituição com ID " + id + " não encontrada.", 404);
         }
 
-        entity.setNome(instituicaoDTO.nome());
-        entity.setEndereco(instituicaoDTO.endereco());
-        entity.setEmail(instituicaoDTO.email());
-        entity.setSenha(instituicaoDTO.senha());
-        entity.setCnpj(instituicaoDTO.cnpj());
+        entity.setNome(instituicaoDTOComSenha.nome());
+        entity.setEndereco(instituicaoDTOComSenha.endereco());
+        entity.setEmail(instituicaoDTOComSenha.email());
+        entity.setSenha(instituicaoDTOComSenha.senha());
+        entity.setCnpj(instituicaoDTOComSenha.cnpj());
 
-        return instituicaoDTO;
+        return instituicaoDTOComSenha;
     }
 
     @DELETE
