@@ -32,10 +32,7 @@ public class AgendamentoService {
     }
 
     public void deletarAgendamento(Long id) {
+        LOGGER.log(Level.INFO, "Buscando agendamento com o id: {0}", id);
         agendamentoRepository.deleteById(id);
-    }
-
-    public void buscarAgendamentoPorCnpj(String cnpj) {
-        //return instituicaoRepository.findByCnpj(cnpj);
     }
 }

@@ -22,5 +22,9 @@ public class PostagemService {
     public void adicionarPostagem(Postagem postagem) {
         postagemRepository.persist(postagem);
     }
+
+    public void deletarPostagem(Long id) {
+        postagemRepository.deleteById(id);
+    }
 }
 

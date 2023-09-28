@@ -98,6 +98,6 @@ public class PostagemController {
         if (entity == null) {
             throw new WebApplicationException("Postagem com ID " + id + " não encontrada.", 404);
         }
-        //entity.delete();
+        postagemService.deletarPostagem(id);
     }
 }

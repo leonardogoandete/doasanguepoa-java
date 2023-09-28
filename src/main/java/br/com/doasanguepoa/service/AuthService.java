@@ -19,9 +19,6 @@ public class AuthService {
     @Inject
     InstituicaoService instituicaoService;
 
-    // Essa chave é usada para assinar o token JWT. Substitua por uma chave real em produção.
-    private static final String SECRET_KEY = "SuaChaveSecreta";
-
     public String autenticarPorCPF(String cpf, String senha) throws Exception {
         // Lógica de autenticação com CPF (substitua por sua lógica de autenticação)
         if (validarCredenciaisCPF(cpf, senha)) {
