@@ -63,12 +63,13 @@ public class AgendamentoController {
     @POST
     @Transactional
     @RolesAllowed({ "USUARIO" })
-    public void adicionarAgendamento(@Valid AgendamentoDTO agendamentoDTO) {
+    public Agendamento adicionarAgendamento(@Valid AgendamentoDTO agendamentoDTO) {
         Usuario usuario = usuarioService.buscarUsuarioPorCpf(upn);
         Instituicao instituicao = instituicaoService.buscarInstituicaoPorId(agendamentoDTO.idInstituicao());
         Agendamento agendamento = new Agendamento(agendamentoDTO.date(),instituicao,agendamentoDTO.hora(),usuario);
         logger.log(Level.INFO,"Exibindo info agendamento {0}", agendamento);
         agendamentoService.adicionarAgendamento(agendamento);
+        return agendamento;
     }
 
 }
