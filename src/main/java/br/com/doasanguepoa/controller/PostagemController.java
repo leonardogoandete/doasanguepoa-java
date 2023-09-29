@@ -6,10 +6,9 @@ import br.com.doasanguepoa.model.Instituicao;
 import br.com.doasanguepoa.model.Postagem;
 import br.com.doasanguepoa.service.InstituicaoService;
 import br.com.doasanguepoa.service.PostagemService;
+import org.eclipse.microprofile.jwt.JsonWebToken;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
-import org.eclipse.microprofile.jwt.Claim;
-import org.eclipse.microprofile.jwt.Claims;
 import org.eclipse.microprofile.openapi.annotations.enums.SecuritySchemeType;
 import org.eclipse.microprofile.openapi.annotations.security.SecurityScheme;
 import org.jboss.resteasy.annotations.jaxrs.PathParam;
@@ -32,15 +31,12 @@ public class PostagemController {
 
     Logger logger = Logger.getLogger(PostagemController.class.getName());
     @Inject
-    @Claim(standard = Claims.upn)
-    String upn;
-    @Inject
     PostagemService postagemService;
 
     @Inject
     InstituicaoService instituicaoService;
 
-
+    @Inject JsonWebToken jwt;
     @GET
     @RolesAllowed({ "USUARIO","INSTITUICAO" })
     public List<PostagemDTO> listarPostagens() {
@@ -69,10 +65,13 @@ public class PostagemController {
     @POST
     @Transactional
     @RolesAllowed({ "INSTITUICAO" })
-    public PostagemCadastroDTO adicionarPostagem(@Valid PostagemCadastroDTO postagemCadastroDTO) {
-        logger.log(Level.INFO,"Exibindo info do token {0}", upn);
-        Instituicao instituicao = instituicaoService.buscarInstituicaoPorCnpj(upn);
-        logger.log(Level.INFO,"Exibindo info instituicao {0}", instituicao);
+    public PostagemCadastroDTO adicionarPostagem(
+            @Valid PostagemCadastroDTO postagemCadastroDTO,
+            @HeaderParam("Authorization") String auth
+    ) {
+        String cnpjInstituicao = jwt.getClaim("upn");
+        Instituicao instituicao = instituicaoService.buscarInstituicaoPorCnpj(cnpjInstituicao);
+        logger.log(Level.INFO,"Adicionando postagem da instituicao: {0}", instituicao.getNome());
         Postagem postagem = new Postagem(postagemCadastroDTO.titulo(), postagemCadastroDTO.mensagem(), instituicao);
         postagemService.adicionarPostagem(postagem);
         return postagemCadastroDTO;
