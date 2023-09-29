@@ -1,5 +1,6 @@
 package br.com.doasanguepoa.controller;
 
+import br.com.doasanguepoa.dto.postagem.PostagemCadastroDTO;
 import br.com.doasanguepoa.dto.postagem.PostagemDTO;
 import br.com.doasanguepoa.model.Instituicao;
 import br.com.doasanguepoa.model.Postagem;
@@ -42,16 +43,19 @@ public class PostagemController {
 
     @GET
     @RolesAllowed({ "USUARIO","INSTITUICAO" })
-    public List<Postagem> listarPostagens() {
-        List<Postagem> postagens = new ArrayList<>();
+    public List<PostagemDTO> listarPostagens() {
+        List<PostagemDTO> postagensDTO = new ArrayList<>();
 
         try{
-            postagens = postagemService.listarPostagens();
+            List<Postagem> postagens = postagemService.listarPostagens();
+            for(Postagem postagem: postagens){
+                logger.log(Level.INFO,"Exibindo info instituicao para front {0}", postagem.getInstituicao().getNome());
+                postagensDTO.add(new PostagemDTO(postagem.getTitulo(),postagem.getMensagem(),postagem.getInstituicao().getNome()));
+            }
         }catch (Exception e){
             e.printStackTrace();
         }
-
-        return postagens;
+        return postagensDTO;
     }
 
 
@@ -65,12 +69,13 @@ public class PostagemController {
     @POST
     @Transactional
     @RolesAllowed({ "INSTITUICAO" })
-    public PostagemDTO adicionarPostagem(@Valid PostagemDTO postagemDTO) {
+    public PostagemCadastroDTO adicionarPostagem(@Valid PostagemCadastroDTO postagemCadastroDTO) {
+        logger.log(Level.INFO,"Exibindo info do token {0}", upn);
         Instituicao instituicao = instituicaoService.buscarInstituicaoPorCnpj(upn);
         logger.log(Level.INFO,"Exibindo info instituicao {0}", instituicao);
-        Postagem postagem = new Postagem(postagemDTO.titulo(), postagemDTO.mensagem(), instituicao);
+        Postagem postagem = new Postagem(postagemCadastroDTO.titulo(), postagemCadastroDTO.mensagem(), instituicao);
         postagemService.adicionarPostagem(postagem);
-        return postagemDTO;
+        return postagemCadastroDTO;
     }
 
     @PUT
