@@ -36,18 +36,19 @@ public class PostagemController {
     @Inject
     InstituicaoService instituicaoService;
 
-    @Inject JsonWebToken jwt;
+    @Inject
+    JsonWebToken jwt;
     @GET
     @RolesAllowed({ "USUARIO","INSTITUICAO" })
-    public List<PostagemDTO> listarPostagens() {
+    public List<PostagemDTO> listarPostagens(@HeaderParam("Host") String host) {
         List<PostagemDTO> postagensDTO = new ArrayList<>();
 
         try{
             List<Postagem> postagens = postagemService.listarPostagens();
             for(Postagem postagem: postagens){
-                logger.log(Level.INFO,"Exibindo info instituicao para front {0}", postagem.getInstituicao().getNome());
                 postagensDTO.add(new PostagemDTO(postagem.getTitulo(),postagem.getMensagem(),postagem.getInstituicao().getNome()));
             }
+            logger.log(Level.INFO,"Exibindo postagens para o front {0}", host);
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -65,10 +66,7 @@ public class PostagemController {
     @POST
     @Transactional
     @RolesAllowed({ "INSTITUICAO" })
-    public PostagemCadastroDTO adicionarPostagem(
-            @Valid PostagemCadastroDTO postagemCadastroDTO,
-            @HeaderParam("Authorization") String auth
-    ) {
+    public PostagemCadastroDTO adicionarPostagem(@Valid PostagemCadastroDTO postagemCadastroDTO) {
         String cnpjInstituicao = jwt.getClaim("upn");
         Instituicao instituicao = instituicaoService.buscarInstituicaoPorCnpj(cnpjInstituicao);
         logger.log(Level.INFO,"Adicionando postagem da instituicao: {0}", instituicao.getNome());

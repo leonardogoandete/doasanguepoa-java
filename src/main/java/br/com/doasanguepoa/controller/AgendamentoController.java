@@ -15,6 +15,7 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import org.eclipse.microprofile.jwt.Claim;
 import org.eclipse.microprofile.jwt.Claims;
+import org.eclipse.microprofile.jwt.JsonWebToken;
 import org.jboss.resteasy.annotations.jaxrs.PathParam;
 
 import java.util.ArrayList;
@@ -29,8 +30,7 @@ public class AgendamentoController {
     Logger logger = Logger.getLogger(AgendamentoController.class.getName());
 
     @Inject
-    @Claim(standard = Claims.upn)
-    String upn;
+    JsonWebToken jwt;
     @Inject
     AgendamentoService agendamentoService;
 
@@ -64,11 +64,16 @@ public class AgendamentoController {
     @Transactional
     @RolesAllowed({ "USUARIO" })
     public Agendamento adicionarAgendamento(@Valid AgendamentoDTO agendamentoDTO) {
-        Usuario usuario = usuarioService.buscarUsuarioPorCpf(upn);
+        String cpf = jwt.getClaim(Claims.upn.name());
+        logger.log(Level.INFO,"Verificando cpf {0}", cpf);
+        Usuario usuario = usuarioService.buscarUsuarioPorCpf(cpf);
+        logger.log(Level.INFO,"Buscando usuario {0}", usuario);
         Instituicao instituicao = instituicaoService.buscarInstituicaoPorId(agendamentoDTO.idInstituicao());
+        logger.log(Level.INFO,"Buscando instituicao {0}", instituicao);
         Agendamento agendamento = new Agendamento(agendamentoDTO.date(),instituicao,agendamentoDTO.hora(),usuario);
         logger.log(Level.INFO,"Exibindo info agendamento {0}", agendamento);
         agendamentoService.adicionarAgendamento(agendamento);
+        logger.log(Level.INFO,"salvando agendamento {0}", agendamento);
         return agendamento;
     }
 
