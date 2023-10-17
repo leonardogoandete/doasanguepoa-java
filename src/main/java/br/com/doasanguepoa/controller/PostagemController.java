@@ -14,6 +14,7 @@ import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import org.eclipse.microprofile.openapi.annotations.enums.SecuritySchemeType;
 import org.eclipse.microprofile.openapi.annotations.security.SecurityScheme;
+import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.jboss.resteasy.annotations.jaxrs.PathParam;
 import jakarta.ws.rs.*;
@@ -114,6 +115,7 @@ public class PostagemController {
     @GET
     @Path("/teste")
     @Produces(MediaType.APPLICATION_JSON)
+    @RolesAllowed({ "USUARIO","INSTITUICAO" })
     public List<PostagemCadastroDTO> teste() {
         //logger.log(Level.INFO, "{0}",postagemServiceClient.listarPostagens());
         //postagemServiceClient.listarPostagens();
