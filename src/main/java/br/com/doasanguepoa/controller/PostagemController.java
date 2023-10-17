@@ -6,11 +6,15 @@ import br.com.doasanguepoa.model.Instituicao;
 import br.com.doasanguepoa.model.Postagem;
 import br.com.doasanguepoa.service.InstituicaoService;
 import br.com.doasanguepoa.service.PostagemService;
+import br.com.doasanguepoa.interfaces.IPostagemService;
+import io.quarkus.oidc.token.propagation.AccessToken;
+import jakarta.annotation.security.PermitAll;
 import org.eclipse.microprofile.jwt.JsonWebToken;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import org.eclipse.microprofile.openapi.annotations.enums.SecuritySchemeType;
 import org.eclipse.microprofile.openapi.annotations.security.SecurityScheme;
+import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.jboss.resteasy.annotations.jaxrs.PathParam;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -35,6 +39,10 @@ public class PostagemController {
 
     @Inject
     InstituicaoService instituicaoService;
+
+    @Inject
+    @RestClient
+    IPostagemService postagemServiceClient;
 
     @Inject
     JsonWebToken jwt;
@@ -101,5 +109,15 @@ public class PostagemController {
             throw new WebApplicationException("Postagem com ID " + id + " não encontrada.", 404);
         }
         postagemService.deletarPostagem(id);
+    }
+
+    @GET
+    @Path("/teste")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<PostagemCadastroDTO> teste() {
+        //logger.log(Level.INFO, "{0}",postagemServiceClient.listarPostagens());
+        //postagemServiceClient.listarPostagens();
+        return postagemServiceClient.listarPostagens();
+
     }
 }
