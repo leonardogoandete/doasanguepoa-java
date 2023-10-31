@@ -14,6 +14,7 @@ import org.eclipse.microprofile.openapi.annotations.enums.SecuritySchemeType;
 import org.eclipse.microprofile.openapi.annotations.security.SecurityScheme;
 import org.jboss.resteasy.annotations.jaxrs.PathParam;
 import jakarta.ws.rs.*;
+import org.eclipse.microprofile.jwt.JsonWebToken;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -32,8 +33,7 @@ public class PostagemController {
 
     Logger logger = Logger.getLogger(PostagemController.class.getName());
     @Inject
-    @Claim(standard = Claims.upn)
-    String upn;
+    JsonWebToken jwt;
     @Inject
     PostagemService postagemService;
 
@@ -45,12 +45,11 @@ public class PostagemController {
     @RolesAllowed({ "USUARIO","INSTITUICAO" })
     public List<PostagemDTO> listarPostagens() {
         List<PostagemDTO> postagensDTO = new ArrayList<>();
-
         try{
             List<Postagem> postagens = postagemService.listarPostagens();
             for(Postagem postagem: postagens){
                 logger.log(Level.INFO,"Exibindo info instituicao para front {0}", postagem.getInstituicao().getNome());
-                postagensDTO.add(new PostagemDTO(postagem.getTitulo(),postagem.getMensagem(),postagem.getInstituicao().getNome()));
+                postagensDTO.add(new PostagemDTO(postagem.getId(), postagem.getTitulo(),postagem.getMensagem(),postagem.getInstituicao().getNome(), postagem.getInstituicao().getAvatar()));
             }
         }catch (Exception e){
             e.printStackTrace();
@@ -70,8 +69,9 @@ public class PostagemController {
     @Transactional
     @RolesAllowed({ "INSTITUICAO" })
     public PostagemCadastroDTO adicionarPostagem(@Valid PostagemCadastroDTO postagemCadastroDTO) {
-        logger.log(Level.INFO,"Exibindo info do token {0}", upn);
-        Instituicao instituicao = instituicaoService.buscarInstituicaoPorCnpj(upn);
+        String cnpj = jwt.getClaim("upn");
+        logger.log(Level.INFO,"Exibindo info do token {0}", cnpj);
+        Instituicao instituicao = instituicaoService.buscarInstituicaoPorCnpj(cnpj);
         logger.log(Level.INFO,"Exibindo info instituicao {0}", instituicao);
         Postagem postagem = new Postagem(postagemCadastroDTO.titulo(), postagemCadastroDTO.mensagem(), instituicao);
         postagemService.adicionarPostagem(postagem);

@@ -17,8 +17,14 @@ import java.util.List;
 @AllArgsConstructor
 public class Instituicao extends Pessoa{
 
+    public Instituicao(String nome, String endereco, String email, String senha, String cnpj, String avatar) {
+        super(nome, endereco, email, senha, Role.INSTITUICAO, avatar);
+        this.cnpj = cnpj;
+        this.agendamentos = new ArrayList<>();
+        this.postagens = new ArrayList<>();
+    }
     public Instituicao(String nome, String endereco, String email, String senha, String cnpj) {
-        super(nome, endereco, email, senha, Role.INSTITUICAO);
+        super(nome, endereco, email, senha, Role.INSTITUICAO, null);
         this.cnpj = cnpj;
         this.agendamentos = new ArrayList<>();
         this.postagens = new ArrayList<>();

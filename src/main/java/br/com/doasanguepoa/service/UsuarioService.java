@@ -31,7 +31,7 @@ public class UsuarioService {
 
     public void adicionarUsuario(UsuarioDTOComSenha usuarioDTOComSenha) {
         String senhaHash = BcryptUtil.bcryptHash(usuarioDTOComSenha.senha());
-        Usuario usuario = new Usuario(usuarioDTOComSenha.nome(), usuarioDTOComSenha.endereco(), usuarioDTOComSenha.email(), senhaHash, usuarioDTOComSenha.cpf());
+        Usuario usuario = new Usuario(usuarioDTOComSenha.nome(), usuarioDTOComSenha.endereco(), usuarioDTOComSenha.email(), senhaHash, usuarioDTOComSenha.cpf(), usuarioDTOComSenha.avatar());
         LOGGER.log(Level.INFO, "Gravando o usuario: {0}", usuario);
         usuarioRepository.persist(usuario);
     }

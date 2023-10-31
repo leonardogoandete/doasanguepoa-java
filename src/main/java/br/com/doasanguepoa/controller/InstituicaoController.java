@@ -30,7 +30,7 @@ public class InstituicaoController {
         try{
             List<Instituicao> instituicoes = instituicaoService.listarInstituicoes();
             for(Instituicao instituicao: instituicoes){
-                instituicoesDTO.add(new InstituicaoDTO(instituicao.getNome(),instituicao.getEndereco(),instituicao.getEmail(),instituicao.getCnpj()));
+                instituicoesDTO.add(new InstituicaoDTO(instituicao.getNome(),instituicao.getEndereco(),instituicao.getEmail(),instituicao.getCnpj(), instituicao.getAvatar()));
             }
         }catch (Exception e){
             e.printStackTrace();

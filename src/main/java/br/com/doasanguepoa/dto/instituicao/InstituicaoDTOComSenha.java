@@ -4,5 +4,6 @@ public record InstituicaoDTOComSenha(String nome,
                                      String endereco,
                                      String email,
                                      String senha,
-                                     String cnpj){
+                                     String cnpj,
+                                     String avatar){
 }

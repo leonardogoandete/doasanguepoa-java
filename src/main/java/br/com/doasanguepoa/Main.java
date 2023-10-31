@@ -28,13 +28,13 @@ public class Main {
         Logger logger = Logger.getLogger(Main.class.getName());
 
         String senha = BcryptUtil.bcryptHash("leonardo");
-        Usuario usuario = new Usuario("leonardo","trav a","leonardo@leonardo.com",senha,"12345678912", Role.ADMIN);
+        Usuario usuario = new Usuario("leonardo","trav a","leonardo@leonardo.com",senha,"12345678912", Role.ADMIN, "https://api.dicebear.com/7.x/adventurer/svg?seed=b");
         logger.log(Level.INFO,"Inserindo usuario: {0}", usuario);
         usuarioRepository.persist(usuario);
 
 
         String senhaHash = BcryptUtil.bcryptHash("clinicas");
-        Instituicao instituicao = new Instituicao("Clinicas","trav oswaldo aranha","clinicas@clinicas.com",senhaHash,"87020517000120");
+        Instituicao instituicao = new Instituicao("Clinicas","trav oswaldo aranha","clinicas@clinicas.com",senhaHash,"87020517000120", "https://api.dicebear.com/7.x/adventurer/svg?seed=d");
         logger.log(Level.INFO,"Inserindo instituicao: {0}", instituicao);
         instituicaoRepository.persist(instituicao);
 

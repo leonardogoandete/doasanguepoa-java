@@ -4,5 +4,6 @@ public record UsuarioDTOComSenha(String nome,
                                  String endereco,
                                  String senha,
                                  String email,
-                                 String cpf) {
+                                 String cpf,
+                                 String avatar) {
 }

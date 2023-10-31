@@ -1,4 +1,4 @@
 package br.com.doasanguepoa.dto.postagem;
 
-public record PostagemDTO(String titulo, String mensagem, String nomeInstituicao) {
+public record PostagemDTO(Long id, String titulo, String mensagem, String nomeInstituicao, String avatar) {
 }

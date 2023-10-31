@@ -4,5 +4,7 @@ public record InstituicaoDTO (
         String nome,
         String endereco,
         String email,
-        String cnpj
+        String cnpj,
+
+        String avatar
 ){}

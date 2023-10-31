@@ -30,7 +30,7 @@ public class UsuarioController {
            List<Usuario> usuarios = usuarioService.listarUsuarios();
 
             for (Usuario usuario: usuarios) {
-                usuariosDTO.add(new UsuarioDTO(usuario.getNome(), usuario.getEndereco(), usuario.getEmail(), usuario.getCpf()));
+                usuariosDTO.add(new UsuarioDTO(usuario.getNome(), usuario.getEndereco(), usuario.getEmail(), usuario.getCpf(), usuario.getAvatar()));
             }
         }catch (Exception e){
             e.printStackTrace();

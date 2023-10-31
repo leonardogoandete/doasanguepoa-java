@@ -2,6 +2,8 @@ package br.com.doasanguepoa.controller;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import br.com.doasanguepoa.dto.autenticacao.LoginDTO;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -18,23 +20,20 @@ public class AuthController {
 
     @POST
     @Path("/login")
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED) // Define o tipo de mídia para formulário URL codificado
-    public Response login(
-            @FormParam("documento") String documento,
-            @FormParam("senha") String senha
-    ) throws Exception {
-        if (documento == null || senha == null) {
+    @Consumes(MediaType.APPLICATION_JSON) // Define o tipo de mídia para formulário URL codificado
+    public Response login(LoginDTO loginDTO) throws Exception {
+        if (loginDTO.documento() == null || loginDTO.senha() == null) {
             return Response.status(Response.Status.BAD_REQUEST).entity("Documento e senha são obrigatórios.").build();
         }
 
         String token = null;
 
-        if (isCPF(documento)) {
+        if (isCPF(loginDTO.documento())) {
             // Autenticar com CPF
-            token = authService.autenticarPorCPF(documento, senha);
-        } else if (isCNPJ(documento)) {
+            token = authService.autenticarPorCPF(loginDTO.documento(), loginDTO.senha());
+        } else if (isCNPJ(loginDTO.documento())) {
             // Autenticar com CNPJ
-            token = authService.autenticarPorCNPJ(documento, senha);
+            token = authService.autenticarPorCNPJ(loginDTO.documento(), loginDTO.senha());
         }
 
         if (token != null) {

@@ -17,13 +17,25 @@ import java.util.List;
 public class Usuario extends Pessoa{
 
     public Usuario(String nome, String endereco, String email, String senha, String cpf) {
-        super(nome, endereco, email, senha, Role.USUARIO);
+        super(nome, endereco, email, senha, Role.USUARIO, null);
+        this.cpf = cpf;
+        this.agendamentos = new ArrayList<>();
+    }
+
+    public Usuario(String nome, String endereco, String email, String senha, String cpf, String avatar) {
+        super(nome, endereco, email, senha, Role.USUARIO, avatar);
         this.cpf = cpf;
         this.agendamentos = new ArrayList<>();
     }
 
     public Usuario(String nome, String endereco, String email, String senha, String cpf, Role role) {
-        super(nome, endereco, email, senha, role);
+        super(nome, endereco, email, senha, role, null);
+        this.cpf = cpf;
+        this.agendamentos = new ArrayList<>();
+    }
+
+    public Usuario(String nome, String endereco, String email, String senha, String cpf, Role role, String avatar) {
+        super(nome, endereco, email, senha, role, avatar);
         this.cpf = cpf;
         this.agendamentos = new ArrayList<>();
     }
