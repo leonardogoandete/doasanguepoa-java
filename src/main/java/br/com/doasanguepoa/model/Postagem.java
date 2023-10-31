@@ -14,7 +14,6 @@ public class Postagem {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
     private String titulo;
     private String mensagem;
     @ManyToOne
