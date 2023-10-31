@@ -2,6 +2,7 @@ package br.com.doasanguepoa.service;
 
 import br.com.doasanguepoa.dto.instituicao.InstituicaoDTOComSenha;
 import br.com.doasanguepoa.model.Instituicao;
+import br.com.doasanguepoa.model.Postagem;
 import br.com.doasanguepoa.repository.InstituicaoRepository;
 import io.quarkus.elytron.security.common.BcryptUtil;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -23,6 +24,10 @@ public class InstituicaoService {
 
     public Instituicao buscarInstituicaoPorId(Long id) {
         return instituicaoRepository.findById(id);
+    }
+
+    public List<Postagem> buscarPostagensPorInstituicao(String cnpj){
+        return instituicaoRepository.findPostagensByInstituicao(cnpj);
     }
 
 
