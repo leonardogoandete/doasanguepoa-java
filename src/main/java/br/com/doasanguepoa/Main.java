@@ -39,7 +39,7 @@ public class Main {
         instituicaoRepository.persist(instituicao);
 
         String senhaHash2 = BcryptUtil.bcryptHash("hps");
-        Instituicao instituicao2 = new Instituicao("Hospital Pronto Socorro","Av. Goethe","hps@hps.com",senhaHash2,"93712735000200");
+        Instituicao instituicao2 = new Instituicao("Hospital Pronto Socorro","Av. Goethe","hps@hps.com",senhaHash2,"93712735000200","https://api.dicebear.com/7.x/adventurer/svg?seed=auhs");
         logger.log(Level.INFO,"Inserindo instituicao: {0}", instituicao2);
         instituicaoRepository.persist(instituicao2);
 

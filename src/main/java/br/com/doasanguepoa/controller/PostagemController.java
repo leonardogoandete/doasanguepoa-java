@@ -73,7 +73,7 @@ public class PostagemController {
         logger.log(Level.INFO,"Exibindo info do token {0}", cnpj);
         Instituicao instituicao = instituicaoService.buscarInstituicaoPorCnpj(cnpj);
         logger.log(Level.INFO,"Exibindo info instituicao {0}", instituicao);
-        Postagem postagem = new Postagem(postagemCadastroDTO.titulo(), postagemCadastroDTO.mensagem(), instituicao);
+        Postagem postagem = new Postagem(instituicao.getNome(),postagemCadastroDTO.mensagem(),instituicao);
         postagemService.adicionarPostagem(postagem);
         return postagemCadastroDTO;
     }
