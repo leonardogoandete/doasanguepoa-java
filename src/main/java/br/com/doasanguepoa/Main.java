@@ -8,7 +8,7 @@ import br.com.doasanguepoa.repository.UsuarioRepository;
 import io.quarkus.elytron.security.common.BcryptUtil;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
-import jakarta.ws.rs.POST;
+import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 
 import java.util.logging.Level;
@@ -22,7 +22,7 @@ public class Main {
 
     @Inject
     InstituicaoRepository instituicaoRepository;
-    @POST
+    @GET
     @Transactional
     public void carga() {
         Logger logger = Logger.getLogger(Main.class.getName());
