@@ -39,8 +39,6 @@ public class Pessoa {
     @NotBlank
     private String documento;
 
-    private String avatar;
-
     public Pessoa(String nome, String endereco, String email, String senha, Role role, String documento) {
         this.nome = nome;
         this.endereco = endereco;
