@@ -1,4 +1,5 @@
 package br.com.doasanguepoa.service;
+import br.com.doasanguepoa.repository.PessoaRepository;
 import br.com.doasanguepoa.utils.SecurityUtil;
 import io.smallrye.jwt.build.Jwt;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -14,10 +15,7 @@ public class AuthService {
     public static final Logger LOGGER = Logger.getLogger(AuthService.class.getName());
 
     @Inject
-    UsuarioService usuarioService;
-
-    @Inject
-    InstituicaoService instituicaoService;
+    PessoaRepository pessoaRepository;
 
     public String autenticarPorCPF(String cpf, String senha) throws Exception {
         // Lógica de autenticação com CPF (substitua por sua lógica de autenticação)
@@ -58,7 +56,7 @@ public class AuthService {
     private boolean validarCredenciaisCPF(String cpf, String senha) throws Exception {
         // Lógica de validação de credenciais CPF
         // trocar para buscar por CPF
-        String pass = usuarioService.buscarUsuarioPorCpf(cpf).getSenha();
+        String pass = pessoaRepository.findByDocumento(cpf).getSenha();
         if (SecurityUtil.verifyBCryptPassword(pass, senha)){
             return true; // Simulação de autenticação bem-sucedida
         }
@@ -69,7 +67,7 @@ public class AuthService {
 
     private boolean validarCredenciaisCNPJ(String cnpj, String senha) throws Exception {
         // Lógica de validação de credenciais CNPJ
-        String pass = instituicaoService.buscarInstituicaoPorCnpj(cnpj).getSenha();
+        String pass = pessoaRepository.findByDocumento(cnpj).getSenha();
         if (SecurityUtil.verifyBCryptPassword(pass, senha)){
             return true; // Simulação de autenticação bem-sucedida
         }

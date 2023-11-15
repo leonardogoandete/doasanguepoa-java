@@ -34,15 +34,20 @@ public class Pessoa {
     private String senha;
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    @NotEmpty
+    @NotBlank
+    private String documento;
+
     private String avatar;
 
-    public Pessoa(String nome, String endereco, String email, String senha, Role role, String avatar) {
+    public Pessoa(String nome, String endereco, String email, String senha, Role role, String documento) {
         this.nome = nome;
         this.endereco = endereco;
         this.email = email;
         this.senha = senha;
         this.role = role;
-        this.avatar = avatar;
+        this.documento = documento;
     }
 
 }
