@@ -15,7 +15,7 @@ import lombok.*;
 @Entity
 //gera tabelas para cada classe filha
 //@MappedSuperclass
-public class Pessoa {
+public class Cadastro {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -35,17 +35,13 @@ public class Pessoa {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @NotEmpty
-    @NotBlank
-    private String documento;
 
-    public Pessoa(String nome, String endereco, String email, String senha, Role role, String documento) {
+    public Cadastro(String nome, String endereco, String email, String senha, Role role) {
         this.nome = nome;
         this.endereco = endereco;
         this.email = email;
         this.senha = senha;
         this.role = role;
-        this.documento = documento;
     }
 
 }
