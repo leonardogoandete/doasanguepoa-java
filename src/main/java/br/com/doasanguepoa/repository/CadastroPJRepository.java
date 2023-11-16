@@ -9,6 +9,6 @@ public class CadastroPJRepository implements PanacheRepository<CadastroPJ> {
 
 
     public CadastroPJ findByCnpj(String cnpj) {
-        return find("cpf = ?1", cnpj).firstResult();
+        return find("cnpj = ?1", cnpj).firstResult();
     }
 }
