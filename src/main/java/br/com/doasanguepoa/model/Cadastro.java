@@ -10,7 +10,7 @@ import lombok.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "pessoas")
+@Table(name = "Cadastro")
 // gera uma unica tabela para todas as classes filhas
 @Entity
 //gera tabelas para cada classe filha
