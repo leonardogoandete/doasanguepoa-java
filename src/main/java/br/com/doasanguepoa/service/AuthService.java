@@ -1,5 +1,6 @@
 package br.com.doasanguepoa.service;
-import br.com.doasanguepoa.repository.PessoaRepository;
+import br.com.doasanguepoa.repository.CadastroPFRepository;
+import br.com.doasanguepoa.repository.CadastroPJRepository;
 import br.com.doasanguepoa.utils.SecurityUtil;
 import io.smallrye.jwt.build.Jwt;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -15,7 +16,10 @@ public class AuthService {
     public static final Logger LOGGER = Logger.getLogger(AuthService.class.getName());
 
     @Inject
-    PessoaRepository pessoaRepository;
+    CadastroPFRepository cadastroPFRepository;
+
+    @Inject
+    CadastroPJRepository cadastroPJRepository;
 
     public String autenticarPorCPF(String cpf, String senha) throws Exception {
         // Lógica de autenticação com CPF (substitua por sua lógica de autenticação)
@@ -56,7 +60,7 @@ public class AuthService {
     private boolean validarCredenciaisCPF(String cpf, String senha) throws Exception {
         // Lógica de validação de credenciais CPF
         // trocar para buscar por CPF
-        String pass = pessoaRepository.findByDocumento(cpf).getSenha();
+        String pass = cadastroPFRepository.findByCpf(cpf).getSenha();
         if (SecurityUtil.verifyBCryptPassword(pass, senha)){
             return true; // Simulação de autenticação bem-sucedida
         }
@@ -67,7 +71,7 @@ public class AuthService {
 
     private boolean validarCredenciaisCNPJ(String cnpj, String senha) throws Exception {
         // Lógica de validação de credenciais CNPJ
-        String pass = pessoaRepository.findByDocumento(cnpj).getSenha();
+        String pass = cadastroPJRepository.findByCnpj(cnpj).getSenha();
         if (SecurityUtil.verifyBCryptPassword(pass, senha)){
             return true; // Simulação de autenticação bem-sucedida
         }
